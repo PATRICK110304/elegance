@@ -1,0 +1,6 @@
+{
+  "name": "Northline Commercial",
+  "description": "Premium commercial real estate services and prime spaces by Northline Commercial.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

@@ -1,0 +1,283 @@
+import { useState, FormEvent } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
+import { X, Send, CheckCircle2, Phone, Mail, MapPin } from 'lucide-react';
+
+interface ContactModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  prefilledProperty?: string;
+}
+
+export default function ContactModal({ isOpen, onClose, prefilledProperty = '' }: ContactModalProps) {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    company: '',
+    interest: prefilledProperty || 'General Inquiry',
+    message: '',
+  });
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
+
+  const handleSubmit = (e: FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    
+    // Simulate premium submission experience
+    setTimeout(() => {
+      setIsSubmitting(false);
+      setIsSubmitted(true);
+    }, 1500);
+  };
+
+  const resetForm = () => {
+    setFormData({
+      name: '',
+      email: '',
+      phone: '',
+      company: '',
+      interest: 'General Inquiry',
+      message: '',
+    });
+    setIsSubmitted(false);
+  };
+
+  const handleClose = () => {
+    onClose();
+    // Reset after transition finishes
+    setTimeout(resetForm, 300);
+  };
+
+  return (
+    <AnimatePresence>
+      {isOpen && (
+        <>
+          {/* Backdrop */}
+          <motion.div
+            id="modal-backdrop"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={handleClose}
+            className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+          />
+
+          {/* Modal Container */}
+          <motion.div
+            id="modal-content"
+            initial={{ opacity: 0, scale: 0.95, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.95, y: 20 }}
+            transition={{ type: 'spring', damping: 25, stiffness: 350 }}
+            className="fixed inset-x-4 bottom-4 top-4 md:inset-auto md:w-full md:max-w-4xl md:h-auto md:max-h-[90vh] bg-brand-dark border border-white/10 rounded-2xl z-50 overflow-hidden flex flex-col md:flex-row shadow-2xl"
+          >
+            {/* Left Side: Brand & Contact Info (Dark Highlight) */}
+            <div className="w-full md:w-2/5 bg-[#162032] p-8 flex flex-col justify-between border-b md:border-b-0 md:border-r border-white/10">
+              <div>
+                {/* Logo */}
+                <div className="flex items-end space-x-2 mb-8">
+                  <div className="flex items-end space-x-0.5">
+                    <div className="w-1 bg-gold-400 h-5" />
+                    <div className="w-1 bg-gold-400 h-7 animate-pulse" />
+                    <div className="w-1 bg-gold-400 h-9" />
+                  </div>
+                  <div>
+                    <div className="font-display font-bold text-white text-base tracking-wider leading-none">
+                      NORTHLINE
+                    </div>
+                    <div className="text-[9px] font-semibold text-gold-400 tracking-widest leading-none mt-0.5">
+                      COMMERCIAL
+                    </div>
+                  </div>
+                </div>
+
+                <h3 className="font-display text-2xl font-bold text-white tracking-tight mb-4">
+                  Donnez une nouvelle dimension à votre entreprise
+                </h3>
+                <p className="text-gray-300 text-sm leading-relaxed mb-8">
+                 Contactez notre équipe de conseillers pour réserver votre espace premium ou planifier une visite physique privée.
+                </p>
+              </div>
+
+              {/* Direct Info */}
+              <div className="space-y-4">
+                <div className="flex items-center space-x-3 text-sm text-gray-300">
+                  <Phone className="w-4 h-4 text-gold-400 shrink-0" />
+                  <span>+225 01 43 66 42 01</span>
+                </div>
+                <div className="flex items-center space-x-3 text-sm text-gray-300">
+                  <Mail className="w-4 h-4 text-gold-400 shrink-0" />
+                  <span>patrickndri120@gmail.com</span>
+                </div>
+                <div className="flex items-center space-x-3 text-sm text-gray-300">
+                  <MapPin className="w-4 h-4 text-gold-400 shrink-0" />
+                  <span>Rue 13, Koumassi Inchalla, Abidjan, Côte d'Ivoire</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Right Side: Form / Success State */}
+            <div className="w-full md:w-3/5 p-8 overflow-y-auto flex flex-col justify-center relative">
+              {/* Close Button */}
+              <button
+                id="close-modal-btn"
+                onClick={handleClose}
+                className="absolute top-4 right-4 p-2 text-gray-400 hover:text-white bg-white/5 hover:bg-white/10 rounded-full transition-colors"
+                aria-label="Close modal"
+              >
+                <X className="w-5 h-5" />
+              </button>
+
+              <AnimatePresence mode="wait">
+                {!isSubmitted ? (
+                  <motion.div
+                    key="form"
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                  >
+                    <h4 className="font-display text-xl font-bold text-white mb-6">
+                      Planifier une séance de conseil privée
+                    </h4>
+
+                    <form onSubmit={handleSubmit} className="space-y-4">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                          <label className="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1.5">
+                            Nom complet
+                          </label>
+                          <input
+                            type="text"
+                            required
+                            value={formData.name}
+                            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                            placeholder="John Doe"
+                            className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-gold-400 focus:ring-1 focus:ring-gold-400 transition-all"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1.5">
+                            Address Email
+                          </label>
+                          <input
+                            type="email"
+                            required
+                            value={formData.email}
+                            onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                            placeholder="john@company.com"
+                            className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-gold-400 focus:ring-1 focus:ring-gold-400 transition-all"
+                          />
+                        </div>
+                      </div>
+
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                          <label className="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1.5">
+                            Numéro de téléphone
+                          </label>
+                          <input
+                            type="tel"
+                            value={formData.phone}
+                            onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                            placeholder="+1 (555) 000-0000"
+                            className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-gold-400 focus:ring-1 focus:ring-gold-400 transition-all"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1.5">
+                            Company / Organization
+                          </label>
+                          <input
+                            type="text"
+                            value={formData.company}
+                            onChange={(e) => setFormData({ ...formData, company: e.target.value })}
+                            placeholder="Acme Corp"
+                            className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-gold-400 focus:ring-1 focus:ring-gold-400 transition-all"
+                          />
+                        </div>
+                      </div>
+
+                      <div>
+                        <label className="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1.5">
+                          Centre d'intérêt / Domaine d'activité
+                        </label>
+                        <select
+                          value={formData.interest}
+                          onChange={(e) => setFormData({ ...formData, interest: e.target.value })}
+                          className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-sm text-white focus:outline-none focus:border-gold-400 focus:ring-1 focus:ring-gold-400 transition-all appearance-none"
+                        >
+                          <option value="General Advisory" className="bg-brand-dark text-white">General Advisory</option>
+                          <option value="Leasing Inquiry" className="bg-brand-dark text-white">Leasing Inquiry</option>
+                          <option value="Acquisitions" className="bg-brand-dark text-white">Acquisitions & Sales</option>
+                          <option value="Property Management" className="bg-brand-dark text-white">Property Management</option>
+                          <option value="One Northline Plaza" className="bg-brand-dark text-white">One Northline Plaza</option>
+                          <option value="The Atrium at Westside" className="bg-brand-dark text-white">The Atrium at Westside</option>
+                          <option value="Summit Logistics Hub" className="bg-brand-dark text-white">Summit Logistics Hub</option>
+                        </select>
+                      </div>
+
+                      <div>
+                        <label className="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1.5">
+                          Your Message
+                        </label>
+                        <textarea
+                          rows={3}
+                          required
+                          value={formData.message}
+                          onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                          placeholder="Briefly describe your spatial requirements or investment timeline..."
+                          className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-gold-400 focus:ring-1 focus:ring-gold-400 transition-all resize-none"
+                        />
+                      </div>
+
+                      <button
+                        id="submit-contact-btn"
+                        type="submit"
+                        disabled={isSubmitting}
+                        className="w-full bg-gold-400 hover:bg-gold-500 text-brand-dark font-semibold text-sm py-3 px-4 rounded-lg flex items-center justify-center space-x-2 transition-all cursor-pointer shadow-lg shadow-gold-400/15"
+                      >
+                        {isSubmitting ? (
+                          <div className="w-5 h-5 border-2 border-brand-dark border-t-transparent rounded-full animate-spin" />
+                        ) : (
+                          <>
+                            <span>Demander un appel de conseil</span>
+                            <Send className="w-4 h-4" />
+                          </>
+                        )}
+                      </button>
+                    </form>
+                  </motion.div>
+                ) : (
+                  <motion.div
+                    key="success"
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.95 }}
+                    className="text-center py-8"
+                  >
+                    <CheckCircle2 className="w-16 h-16 text-gold-400 mx-auto mb-4 animate-bounce" />
+                    <h4 className="font-display text-2xl font-bold text-white mb-2">
+                      Demande reçue avec succès
+                    </h4>
+                    <p className="text-gray-300 text-sm max-w-sm mx-auto mb-6">
+                      Merci d'avoir contacté Northline Commercial. Un conseiller en immobilier d'entreprise senior a été affecté à votre demande et vous contactera dans un délai de 2 heures ouvrables.
+                    </p>
+                    <button
+                      id="close-success-btn"
+                      onClick={handleClose}
+                      className="bg-white/10 hover:bg-white/20 text-white font-semibold text-xs uppercase tracking-widest px-6 py-3 rounded-lg transition-all"
+                    >
+                     Retour à la galerie
+                    </button>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+          </motion.div>
+        </>
+      )}
+    </AnimatePresence>
+  );
+}
