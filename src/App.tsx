@@ -13,10 +13,10 @@ import ContactModal from './components/ContactModal';
 import AdminDashboard from './pages/AdminDashboard';
 
 export default function App() {
-  if (window.location.pathname === '/admin') return <AdminDashboard />;
-
   const [isContactOpen, setIsContactOpen] = useState(false);
   const [prefilledProperty, setPrefilledProperty] = useState('');
+
+  if (window.location.pathname === '/admin') return <AdminDashboard />;
 
   const handleOpenContact = (propertyTitle: string = '') => {
     setPrefilledProperty(propertyTitle);
