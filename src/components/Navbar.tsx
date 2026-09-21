@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Menu, X, Phone } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
+import { useTranslation, type Locale } from '../i18n';
 
 interface NavbarProps {
   onContactClick: (interest?: string) => void;
@@ -9,6 +10,7 @@ interface NavbarProps {
 export default function Navbar({ onContactClick }: NavbarProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const { locale, setLocale, t } = useTranslation();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -23,10 +25,10 @@ export default function Navbar({ onContactClick }: NavbarProps) {
   }, []);
 
   const navLinks = [
-    { name: 'Properties', href: '#properties' },
-    { name: 'Services', href: '#services' },
-    { name: 'About Us', href: '#about' },
-    { name: 'Insights', href: '#insights' },
+    { name: t('nav', 'properties'), href: '#properties' },
+    { name: t('nav', 'services'), href: '#services' },
+    { name: t('nav', 'about'), href: '#about' },
+    { name: t('nav', 'insights'), href: '#insights' },
   ];
 
   return (
@@ -47,7 +49,7 @@ export default function Navbar({ onContactClick }: NavbarProps) {
           <a
             href="#"
             className="flex items-end space-x-2 group focus:outline-none"
-            aria-label="Northline Commercial Home"
+            aria-label={t('nav', 'home')}
           >
             {/* Animated Gold Bars */}
             <div className="flex items-end space-x-0.5 h-10 pb-0.5">
@@ -100,12 +102,17 @@ export default function Navbar({ onContactClick }: NavbarProps) {
 
           {/* Desktop Call to Action */}
           <div className="hidden md:flex items-center space-x-4">
+            <div className="flex items-center rounded-md border border-white/10 p-0.5 text-[10px] font-bold tracking-widest" aria-label="Language selector">
+              {(['fr', 'en'] as Locale[]).map((option) => (
+                <button key={option} type="button" onClick={() => setLocale(option)} className={`rounded px-2 py-1 transition-colors ${locale === option ? 'bg-gold-400 text-brand-dark' : 'text-gray-400 hover:text-white'}`} aria-pressed={locale === option}>{option.toUpperCase()}</button>
+              ))}
+            </div>
             <button
               id="desktop-contact-btn"
               onClick={() => onContactClick()}
               className="border border-gold-400/80 text-gold-400 hover:text-brand-dark hover:bg-gold-400 font-semibold text-xs uppercase tracking-widest px-5 py-2.5 rounded-md transition-all cursor-pointer duration-300 focus:outline-none focus:ring-1 focus:ring-gold-400"
             >
-              Get In Touch
+              {t('nav', 'contact')}
             </button>
           </div>
 
@@ -115,7 +122,7 @@ export default function Navbar({ onContactClick }: NavbarProps) {
               id="mobile-menu-btn"
               onClick={() => setIsOpen(!isOpen)}
               className="p-2 text-gray-300 hover:text-white transition-colors focus:outline-none"
-              aria-label={isOpen ? 'Close menu' : 'Open menu'}
+              aria-label={isOpen ? t('nav', 'close') : t('nav', 'open')}
             >
               {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </button>
@@ -145,6 +152,9 @@ export default function Navbar({ onContactClick }: NavbarProps) {
                   </a>
                 ))}
                 <div className="pt-4 border-t border-white/10 flex flex-col space-y-4">
+                  <div className="flex items-center gap-2 text-xs font-bold tracking-widest text-gray-400">
+                    {(['fr', 'en'] as Locale[]).map((option) => <button key={option} type="button" onClick={() => setLocale(option)} className={locale === option ? 'text-gold-400' : 'text-gray-400'}>{option.toUpperCase()}</button>)}
+                  </div>
                   <div className="flex items-center space-x-2 text-xs text-gray-400">
                     <Phone className="w-4 h-4 text-gold-400" />
                     <span>+1 (800) 555-0199</span>
@@ -157,7 +167,7 @@ export default function Navbar({ onContactClick }: NavbarProps) {
                     }}
                     className="w-full bg-gold-400 hover:bg-gold-500 text-brand-dark font-bold text-xs uppercase tracking-widest py-3 px-4 rounded-md text-center transition-all cursor-pointer"
                   >
-                    Get In Touch
+                    {t('nav', 'contact')}
                   </button>
                 </div>
               </div>
