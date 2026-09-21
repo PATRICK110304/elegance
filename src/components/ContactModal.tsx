@@ -1,6 +1,7 @@
 import { useState, FormEvent } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { X, Send, CheckCircle2, Phone, Mail, MapPin } from 'lucide-react';
+import { useTranslation } from '../i18n';
 
 interface ContactModalProps {
   isOpen: boolean;
@@ -9,6 +10,7 @@ interface ContactModalProps {
 }
 
 export default function ContactModal({ isOpen, onClose, prefilledProperty = '' }: ContactModalProps) {
+  const { t } = useTranslation();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -94,10 +96,10 @@ export default function ContactModal({ isOpen, onClose, prefilledProperty = '' }
                 </div>
 
                 <h3 className="font-display text-2xl font-bold text-white tracking-tight mb-4">
-                  Donnez une nouvelle dimension à votre entreprise
+                  {t('contact', 'title')}
                 </h3>
                 <p className="text-gray-300 text-sm leading-relaxed mb-8">
-                 Contactez notre équipe de conseillers pour réserver votre espace premium ou planifier une visite physique privée.
+                 {t('contact', 'intro')}
                 </p>
               </div>
 
@@ -139,14 +141,14 @@ export default function ContactModal({ isOpen, onClose, prefilledProperty = '' }
                     exit={{ opacity: 0, y: -10 }}
                   >
                     <h4 className="font-display text-xl font-bold text-white mb-6">
-                      Planifier une séance de conseil privée
+                      {t('contact', 'plan')}
                     </h4>
 
                     <form onSubmit={handleSubmit} className="space-y-4">
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
                           <label className="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1.5">
-                            Nom complet
+                            {t('contact', 'name')}
                           </label>
                           <input
                             type="text"
@@ -159,7 +161,7 @@ export default function ContactModal({ isOpen, onClose, prefilledProperty = '' }
                         </div>
                         <div>
                           <label className="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1.5">
-                            Address Email
+                            {t('contact', 'email')}
                           </label>
                           <input
                             type="email"
@@ -175,7 +177,7 @@ export default function ContactModal({ isOpen, onClose, prefilledProperty = '' }
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
                           <label className="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1.5">
-                            Numéro de téléphone
+                            {t('contact', 'phone')}
                           </label>
                           <input
                             type="tel"
@@ -187,7 +189,7 @@ export default function ContactModal({ isOpen, onClose, prefilledProperty = '' }
                         </div>
                         <div>
                           <label className="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1.5">
-                            Company / Organization
+                            {t('contact', 'company')}
                           </label>
                           <input
                             type="text"
@@ -201,7 +203,7 @@ export default function ContactModal({ isOpen, onClose, prefilledProperty = '' }
 
                       <div>
                         <label className="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1.5">
-                          Centre d'intérêt / Domaine d'activité
+                          {t('contact', 'interest')}
                         </label>
                         <select
                           value={formData.interest}
@@ -220,14 +222,14 @@ export default function ContactModal({ isOpen, onClose, prefilledProperty = '' }
 
                       <div>
                         <label className="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1.5">
-                          Your Message
+                          {t('contact', 'message')}
                         </label>
                         <textarea
                           rows={3}
                           required
                           value={formData.message}
                           onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                          placeholder="Briefly describe your spatial requirements or investment timeline..."
+                          placeholder={t('contact', 'messagePlaceholder')}
                           className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-gold-400 focus:ring-1 focus:ring-gold-400 transition-all resize-none"
                         />
                       </div>
@@ -242,7 +244,7 @@ export default function ContactModal({ isOpen, onClose, prefilledProperty = '' }
                           <div className="w-5 h-5 border-2 border-brand-dark border-t-transparent rounded-full animate-spin" />
                         ) : (
                           <>
-                            <span>Demander un appel de conseil</span>
+                            <span>{t('contact', 'submit')}</span>
                             <Send className="w-4 h-4" />
                           </>
                         )}
@@ -259,17 +261,17 @@ export default function ContactModal({ isOpen, onClose, prefilledProperty = '' }
                   >
                     <CheckCircle2 className="w-16 h-16 text-gold-400 mx-auto mb-4 animate-bounce" />
                     <h4 className="font-display text-2xl font-bold text-white mb-2">
-                      Demande reçue avec succès
+                      {t('contact', 'success')}
                     </h4>
                     <p className="text-gray-300 text-sm max-w-sm mx-auto mb-6">
-                      Merci d'avoir contacté Northline Commercial. Un conseiller en immobilier d'entreprise senior a été affecté à votre demande et vous contactera dans un délai de 2 heures ouvrables.
+                      {t('contact', 'successText')}
                     </p>
                     <button
                       id="close-success-btn"
                       onClick={handleClose}
                       className="bg-white/10 hover:bg-white/20 text-white font-semibold text-xs uppercase tracking-widest px-6 py-3 rounded-lg transition-all"
                     >
-                     Retour à la galerie
+                     {t('contact', 'back')}
                     </button>
                   </motion.div>
                 )}

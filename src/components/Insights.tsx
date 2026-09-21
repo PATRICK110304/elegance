@@ -1,17 +1,19 @@
 import { motion } from 'motion/react';
 import { ArrowRight, Calendar, Bookmark } from 'lucide-react';
+import { useTranslation } from '../i18n';
 
 interface InsightsProps {
   onContactClick: (insightTitle: string) => void;
 }
 
 export default function Insights({ onContactClick }: InsightsProps) {
+  const { t } = useTranslation();
   const articles = [
     {
       id: 'ins-1',
       title: 'Global Office Trends: Designing Post-Hybrid Hubs',
       date: 'July 15, 2026',
-      category: 'MARKET INTEL',
+      category: t('insights', 'market'),
       image: 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?q=80&w=2070&auto=format&fit=crop',
       excerpt: 'Discover how modern enterprises are restructuring prime office squares to foster high-performance collaborative cultures.',
     },
@@ -19,7 +21,7 @@ export default function Insights({ onContactClick }: InsightsProps) {
       id: 'ins-2',
       title: 'Decarbonizing Commercial Portfolios by 2030',
       date: 'June 28, 2026',
-      category: 'SUSTAINABILITY',
+      category: t('insights', 'sustainability'),
       image: 'https://images.unsplash.com/photo-1497366754035-f200968a6e72?q=80&w=2069&auto=format&fit=crop',
       excerpt: 'An actionable roadmap for corporate landlords looking to optimize capital expenditures while transitioning to net-zero assets.',
     },
@@ -27,7 +29,7 @@ export default function Insights({ onContactClick }: InsightsProps) {
       id: 'ins-3',
       title: 'Logistics Real Estate: The Next Warehouse Horizon',
       date: 'May 12, 2026',
-      category: 'LOGISTICS & INDUSTRIAL',
+      category: t('insights', 'logistics'),
       image: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=2070&auto=format&fit=crop',
       excerpt: 'Evaluating the impact of automated micro-fulfillment facilities on urban supply chains and long-term land values.',
     },
@@ -41,10 +43,10 @@ export default function Insights({ onContactClick }: InsightsProps) {
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16 md:mb-20">
           <div>
             <span className="text-xs md:text-sm font-bold tracking-[0.25em] text-gold-400 uppercase">
-              MARKET ADVISORY
+              {t('insights', 'kicker')}
             </span>
             <h2 className="font-display font-bold text-3xl sm:text-4xl md:text-5xl tracking-tight text-gray-900 leading-tight mt-3">
-              Research & Industry Insights
+              {t('insights', 'title')}
             </h2>
           </div>
           <button
@@ -52,7 +54,7 @@ export default function Insights({ onContactClick }: InsightsProps) {
             onClick={() => onContactClick('All Insights')}
             className="self-start md:self-auto border border-gray-300 hover:border-gold-400 hover:text-gold-400 text-gray-700 font-bold text-xs uppercase tracking-widest py-3 px-6 rounded transition-colors duration-300 cursor-pointer"
           >
-            View All Insights
+            {t('insights', 'viewAll')}
           </button>
         </div>
 
@@ -110,7 +112,7 @@ export default function Insights({ onContactClick }: InsightsProps) {
                     onClick={() => onContactClick(article.title)}
                     className="group/btn flex items-center space-x-2 text-xs font-bold text-gold-400 uppercase tracking-widest cursor-pointer focus:outline-none"
                   >
-                    <span>Read Brief</span>
+                    <span>{t('insights', 'read')}</span>
                     <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover/btn:translate-x-1 text-gold-400" />
                   </button>
                 </div>

@@ -1,5 +1,6 @@
 import { Search, SlidersHorizontal, X } from 'lucide-react';
 import { useMemo } from 'react';
+import { useTranslation } from '../i18n';
 
 export type PropertyStatus = 'available' | 'reserved' | 'sold';
 
@@ -29,6 +30,7 @@ const initialFilters: ProductFilterValues = {
 export { initialFilters };
 
 export default function ProductFilters({ value, categories, resultCount, onChange }: ProductFiltersProps) {
+  const { t } = useTranslation();
   const hasActiveFilters = useMemo(
     () => value.search || value.category !== initialFilters.category || value.minPrice || value.maxPrice || value.availableOnly,
     [value],
@@ -41,28 +43,28 @@ export default function ProductFilters({ value, categories, resultCount, onChang
       <div className="mb-5 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div className="flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.16em] text-white">
           <SlidersHorizontal className="h-4 w-4 text-gold-400" aria-hidden="true" />
-          Affiner la sélection
+          {t('filters', 'title')}
         </div>
         <span className="text-xs text-gray-500" aria-live="polite">
-          {resultCount} {resultCount > 1 ? 'biens trouvés' : 'bien trouvé'}
+          {resultCount} {resultCount > 1 ? t('filters', 'many') : t('filters', 'one')}
         </span>
       </div>
 
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-[2fr_1.25fr_1fr_1fr]">
         <label className="relative block">
-          <span className="sr-only">Rechercher un bien</span>
+          <span className="sr-only">{t('filters', 'searchLabel')}</span>
           <Search className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-500" aria-hidden="true" />
           <input
             type="search"
             value={value.search}
             onChange={(event) => update({ search: event.target.value })}
-            placeholder="Rechercher par nom, lieu..."
+            placeholder={t('filters', 'searchPlaceholder')}
             className="h-12 w-full rounded-lg border border-white/10 bg-brand-dark pl-11 pr-4 text-sm text-white outline-none transition-colors placeholder:text-gray-600 focus:border-gold-400"
           />
         </label>
 
         <label>
-          <span className="sr-only">Catégorie</span>
+          <span className="sr-only">{t('filters', 'category')}</span>
           <select
             value={value.category}
             onChange={(event) => update({ category: event.target.value })}
@@ -73,25 +75,25 @@ export default function ProductFilters({ value, categories, resultCount, onChang
         </label>
 
         <label>
-          <span className="sr-only">Prix minimum</span>
+          <span className="sr-only">{t('filters', 'min')}</span>
           <input
             type="number"
             min="0"
             value={value.minPrice}
             onChange={(event) => update({ minPrice: event.target.value })}
-            placeholder="Prix min."
+            placeholder={t('filters', 'min')}
             className="h-12 w-full rounded-lg border border-white/10 bg-brand-dark px-4 text-sm text-white outline-none transition-colors placeholder:text-gray-600 focus:border-gold-400"
           />
         </label>
 
         <label>
-          <span className="sr-only">Prix maximum</span>
+          <span className="sr-only">{t('filters', 'max')}</span>
           <input
             type="number"
             min="0"
             value={value.maxPrice}
             onChange={(event) => update({ maxPrice: event.target.value })}
-            placeholder="Prix max."
+            placeholder={t('filters', 'max')}
             className="h-12 w-full rounded-lg border border-white/10 bg-brand-dark px-4 text-sm text-white outline-none transition-colors placeholder:text-gray-600 focus:border-gold-400"
           />
         </label>
@@ -105,12 +107,12 @@ export default function ProductFilters({ value, categories, resultCount, onChang
             onChange={(event) => update({ availableOnly: event.target.checked })}
             className="h-4 w-4 accent-gold-400"
           />
-          Disponibles uniquement
+          {t('filters', 'available')}
         </label>
         {hasActiveFilters && (
           <button type="button" onClick={() => onChange(initialFilters)} className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-gold-400 transition-colors hover:text-gold-300">
             <X className="h-3.5 w-3.5" aria-hidden="true" />
-            Réinitialiser
+            {t('filters', 'reset')}
           </button>
         )}
       </div>

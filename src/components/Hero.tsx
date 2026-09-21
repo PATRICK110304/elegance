@@ -1,5 +1,6 @@
 import { motion } from 'motion/react';
 import { ArrowRight, PlayCircle } from 'lucide-react';
+import { useTranslation } from '../i18n';
 
 interface HeroProps {
   onExploreClick: () => void;
@@ -7,6 +8,7 @@ interface HeroProps {
 }
 
 export default function Hero({ onExploreClick, onContactClick }: HeroProps) {
+  const { t } = useTranslation();
   return (
     <section
       id="hero"
@@ -41,7 +43,7 @@ export default function Hero({ onExploreClick, onContactClick }: HeroProps) {
             transition={{ delay: 0.2, duration: 0.8 }}
             className="text-xs md:text-sm font-semibold tracking-[0.25em] text-gold-400 uppercase mb-4"
           >
-            ESPACES PREMIUM. EMPLACEMENTS PRIMES.
+            {t('hero', 'kicker')}
           </motion.p>
 
           {/* Heading */}
@@ -51,9 +53,9 @@ export default function Hero({ onExploreClick, onContactClick }: HeroProps) {
             transition={{ delay: 0.4, duration: 0.8 }}
             className="font-display font-bold text-4xl sm:text-5xl md:text-7xl leading-[1.05] tracking-tight text-white mb-6"
           >
-            Des espaces qui <br className="hidden md:inline" />
+            {t('hero', 'title')} <br className="hidden md:inline" />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-white to-gold-300">
-              inspirent le succès
+              {t('hero', 'highlight')}
             </span>
           </motion.h1>
 
@@ -64,7 +66,7 @@ export default function Hero({ onExploreClick, onContactClick }: HeroProps) {
             transition={{ delay: 0.6, duration: 0.8 }}
             className="text-gray-300 text-base md:text-lg leading-relaxed mb-10 max-w-2xl"
           >
-            Northline Commercial est la principale société de conseil et de courtage spécialisée dans les espaces de travail d'entreprise de classe A, les installations logistiques de pointe et les domaines commerciaux haut de gamme sur mesure. Nous faisons le lien entre une architecture d'élite et des opportunités d'affaires inégalées.
+            {t('hero', 'body')}
           </motion.p>
 
           {/* Buttons */}
@@ -80,7 +82,7 @@ export default function Hero({ onExploreClick, onContactClick }: HeroProps) {
               onClick={onExploreClick}
               className="group bg-gold-400 hover:bg-gold-500 text-brand-dark font-bold text-sm px-8 py-4 rounded flex items-center justify-center space-x-2 transition-all duration-300 hover:shadow-lg hover:shadow-gold-400/20 cursor-pointer"
             >
-              <span>Explorer les biens</span>
+              <span>{t('hero', 'explore')}</span>
               <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
             </button>
 
@@ -91,7 +93,7 @@ export default function Hero({ onExploreClick, onContactClick }: HeroProps) {
               className="group flex items-center justify-center space-x-2 text-white hover:text-gold-400 text-sm font-semibold py-4 px-6 transition-colors duration-300 cursor-pointer"
             >
               <PlayCircle className="w-5 h-5 text-gold-400 transition-transform duration-300 group-hover:scale-110" />
-              <span>Regarder la visite vidéo</span>
+              <span>{t('hero', 'video')}</span>
             </button>
           </motion.div>
         </div>
