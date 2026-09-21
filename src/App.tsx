@@ -6,7 +6,7 @@ import TrustedCompanies from './components/TrustedCompanies';
 import About from './components/About';
 import Services from './components/Services';
 import FeaturedProperties from './components/FeaturedProperties';
-import ResearchInsights from './components/ResearchInsights';
+import Insights from './components/Insights';
 import CTA from './components/CTA';
 import Footer from './components/Footer';
 import ContactModal from './components/ContactModal';
@@ -64,7 +64,7 @@ function SiteContent() {
         <FeaturedProperties onContactClick={(prop) => handleOpenContact(prop)} />
 
         {/* 3.8 Insights & News Section */}
-        <ResearchInsights onContactClick={(insight) => handleOpenContact(insight)} />
+        <Insights onContactClick={(insight) => handleOpenContact(insight)} />
 
         {/* 3.9 Call To Action Section */}
         <CTA onContactClick={() => handleOpenContact('Direct Callback')} />
