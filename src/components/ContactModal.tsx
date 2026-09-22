@@ -18,6 +18,7 @@ export default function ContactModal({ isOpen, onClose, prefilledProperty = '' }
     company: '',
     interest: prefilledProperty || 'General Inquiry',
     message: '',
+    website: '', // honeypot — must stay empty
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -50,7 +51,7 @@ export default function ContactModal({ isOpen, onClose, prefilledProperty = '' }
 
       setIsSubmitted(true);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Impossible d\'envoyer le message. Réessayez.');
+      setError(err instanceof Error ? err.message : "Impossible d'envoyer le message. Réessayez.");
     } finally {
       setIsSubmitting(false);
     }
@@ -64,6 +65,7 @@ export default function ContactModal({ isOpen, onClose, prefilledProperty = '' }
       company: '',
       interest: 'General Inquiry',
       message: '',
+      website: '',
     });
     setIsSubmitted(false);
     setError('');
@@ -124,15 +126,19 @@ export default function ContactModal({ isOpen, onClose, prefilledProperty = '' }
               <div className="space-y-4">
                 <div className="flex items-center space-x-3 text-sm text-gray-300">
                   <Phone className="w-4 h-4 text-gold-400 shrink-0" />
-                  <a href="tel:+2250500183920" className="hover:text-gold-400">+225 05 00 18 39 20</a>
+                  <a href="tel:+2250500183920" className="hover:text-gold-400">
+                    +225 05 00 18 39 20
+                  </a>
                 </div>
                 <div className="flex items-center space-x-3 text-sm text-gray-300">
                   <Mail className="w-4 h-4 text-gold-400 shrink-0" />
-                  <a href="mailto:patrickndri120@gmail.com" className="hover:text-gold-400">patrickndri120@gmail.com</a>
+                  <a href="mailto:patrickndri120@gmail.com" className="hover:text-gold-400">
+                    patrickndri120@gmail.com
+                  </a>
                 </div>
                 <div className="flex items-center space-x-3 text-sm text-gray-300">
                   <MapPin className="w-4 h-4 text-gold-400 shrink-0" />
-                  <span>Rue 13, Koumassi Inchalla, Abidjan, Côte d'Ivoire</span>
+                  <span>Rue 13, Koumassi Inchalla, Abidjan, Côte d&apos;Ivoire</span>
                 </div>
               </div>
             </div>
@@ -160,6 +166,29 @@ export default function ContactModal({ isOpen, onClose, prefilledProperty = '' }
                     </h4>
 
                     <form onSubmit={handleSubmit} className="space-y-4">
+                      {/* Honeypot — hidden from users, bots often fill it */}
+                      <div
+                        aria-hidden="true"
+                        style={{
+                          position: 'absolute',
+                          left: '-9999px',
+                          opacity: 0,
+                          height: 0,
+                          overflow: 'hidden',
+                        }}
+                      >
+                        <label htmlFor="website">Website</label>
+                        <input
+                          id="website"
+                          name="website"
+                          type="text"
+                          tabIndex={-1}
+                          autoComplete="off"
+                          value={formData.website}
+                          onChange={(e) => setFormData({ ...formData, website: e.target.value })}
+                        />
+                      </div>
+
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
                           <label className="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1.5">
@@ -168,6 +197,7 @@ export default function ContactModal({ isOpen, onClose, prefilledProperty = '' }
                           <input
                             type="text"
                             required
+                            maxLength={200}
                             value={formData.name}
                             onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                             placeholder="Jean Kouassi"
@@ -181,6 +211,7 @@ export default function ContactModal({ isOpen, onClose, prefilledProperty = '' }
                           <input
                             type="email"
                             required
+                            maxLength={200}
                             value={formData.email}
                             onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                             placeholder="jean@entreprise.ci"
@@ -196,6 +227,7 @@ export default function ContactModal({ isOpen, onClose, prefilledProperty = '' }
                           </label>
                           <input
                             type="tel"
+                            maxLength={40}
                             value={formData.phone}
                             onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                             placeholder="+225 07 00 00 00 00"
@@ -208,6 +240,7 @@ export default function ContactModal({ isOpen, onClose, prefilledProperty = '' }
                           </label>
                           <input
                             type="text"
+                            maxLength={200}
                             value={formData.company}
                             onChange={(e) => setFormData({ ...formData, company: e.target.value })}
                             placeholder="Votre entreprise"
@@ -225,13 +258,27 @@ export default function ContactModal({ isOpen, onClose, prefilledProperty = '' }
                           onChange={(e) => setFormData({ ...formData, interest: e.target.value })}
                           className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-sm text-white focus:outline-none focus:border-gold-400 focus:ring-1 focus:ring-gold-400 transition-all appearance-none"
                         >
-                          <option value="Conseil général" className="bg-brand-dark text-white">Conseil général</option>
-                          <option value="Location / Leasing" className="bg-brand-dark text-white">Location / Leasing</option>
-                          <option value="Acquisition & Vente" className="bg-brand-dark text-white">Acquisition & Vente</option>
-                          <option value="Gestion de patrimoine" className="bg-brand-dark text-white">Gestion de patrimoine</option>
-                          <option value="One Northline Plaza" className="bg-brand-dark text-white">One Northline Plaza</option>
-                          <option value="The Atrium at Westside" className="bg-brand-dark text-white">The Atrium Plateau</option>
-                          <option value="Summit Logistics Hub" className="bg-brand-dark text-white">Summit Logistics Hub</option>
+                          <option value="Conseil général" className="bg-brand-dark text-white">
+                            Conseil général
+                          </option>
+                          <option value="Location / Leasing" className="bg-brand-dark text-white">
+                            Location / Leasing
+                          </option>
+                          <option value="Acquisition & Vente" className="bg-brand-dark text-white">
+                            Acquisition &amp; Vente
+                          </option>
+                          <option value="Gestion de patrimoine" className="bg-brand-dark text-white">
+                            Gestion de patrimoine
+                          </option>
+                          <option value="One Northline Plaza" className="bg-brand-dark text-white">
+                            One Northline Plaza
+                          </option>
+                          <option value="The Atrium Plateau" className="bg-brand-dark text-white">
+                            The Atrium Plateau
+                          </option>
+                          <option value="Summit Logistics Hub" className="bg-brand-dark text-white">
+                            Summit Logistics Hub
+                          </option>
                         </select>
                       </div>
 
@@ -242,6 +289,7 @@ export default function ContactModal({ isOpen, onClose, prefilledProperty = '' }
                         <textarea
                           rows={3}
                           required
+                          maxLength={2000}
                           value={formData.message}
                           onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                           placeholder={t('contact', 'messagePlaceholder')}
@@ -249,9 +297,7 @@ export default function ContactModal({ isOpen, onClose, prefilledProperty = '' }
                         />
                       </div>
 
-                      {error && (
-                        <p className="text-red-400 text-sm">{error}</p>
-                      )}
+                      {error && <p className="text-red-400 text-sm">{error}</p>}
 
                       <button
                         id="submit-contact-btn"
