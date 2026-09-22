@@ -4,6 +4,7 @@ import Hero from './components/Hero';
 import FeaturesGrid from './components/FeaturesGrid';
 import TrustedCompanies from './components/TrustedCompanies';
 import ContactModal from './components/ContactModal';
+import VideoTourModal from './components/VideoTourModal';
 import { I18nProvider } from './i18n';
 
 const About = lazy(() => import('./components/About'));
@@ -57,6 +58,7 @@ export default function App() {
 
 function SiteContent() {
   const [isContactOpen, setIsContactOpen] = useState(false);
+  const [isVideoOpen, setIsVideoOpen] = useState(false);
   const [prefilledProperty, setPrefilledProperty] = useState('');
 
   const handleOpenContact = (propertyTitle: string = '') => {
@@ -77,6 +79,7 @@ function SiteContent() {
         <Hero
           onExploreClick={handleScrollToProperties}
           onContactClick={() => handleOpenContact('Video Tour Inquiry')}
+          onVideoClick={() => setIsVideoOpen(true)}
         />
         <FeaturesGrid />
         <TrustedCompanies />
@@ -107,6 +110,7 @@ function SiteContent() {
         onClose={() => setIsContactOpen(false)}
         prefilledProperty={prefilledProperty}
       />
+      <VideoTourModal isOpen={isVideoOpen} onClose={() => setIsVideoOpen(false)} />
     </div>
   );
 }
