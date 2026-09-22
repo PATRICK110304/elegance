@@ -1,33 +1,34 @@
 import { motion } from 'motion/react';
 import { Building2, Gem, User, TrendingUp } from 'lucide-react';
+import { useTranslation } from '../i18n';
 
 export default function FeaturesGrid() {
+  const { t } = useTranslation();
   const features = [
     {
       icon: Building2,
-      title: 'Class-A Architecture',
-      description: 'Ultra-premium office spaces designed with sustainable systems and state-of-the-art tech integrations.',
+      title: t('features', 'archTitle'),
+      description: t('features', 'archDesc'),
     },
     {
       icon: Gem,
-      title: 'Prime Locations',
-      description: 'Properties situated in high-growth commercial hubs, providing outstanding visibility and accessibility.',
+      title: t('features', 'locTitle'),
+      description: t('features', 'locDesc'),
     },
     {
       icon: User,
-      title: 'Bespoke Brokerage',
-      description: 'Direct advisory tailored to your firm’s spatial needs, leasing timelines, and investment parameters.',
+      title: t('features', 'brokTitle'),
+      description: t('features', 'brokDesc'),
     },
     {
       icon: TrendingUp,
-      title: 'Yield Optimization',
-      description: 'Strategic market research ensuring your commercial investments generate strong capital appreciation.',
+      title: t('features', 'yieldTitle'),
+      description: t('features', 'yieldDesc'),
     },
   ];
 
   return (
     <div className="relative z-30 max-w-7xl mx-auto px-6 md:px-8">
-      {/* Visual overlap grid */}
       <motion.div
         id="features-overlap-grid"
         initial={{ y: 50, opacity: 0 }}
@@ -44,18 +45,13 @@ export default function FeaturesGrid() {
                 key={index}
                 className="group p-8 md:p-10 flex flex-col items-start transition-all duration-300 hover:bg-white/[0.02]"
               >
-                {/* Icon wrapper */}
                 <div className="p-3 bg-white/5 rounded-lg border border-white/10 mb-6 transition-colors duration-300 group-hover:bg-gold-400/10 group-hover:border-gold-400/30">
                   <IconComponent className="w-6 h-6 text-gold-400 transition-transform duration-500 group-hover:scale-110" />
                 </div>
-                
-                {/* Text */}
                 <h3 className="font-display font-bold text-lg text-white mb-2 tracking-tight group-hover:text-gold-300 transition-colors">
                   {feature.title}
                 </h3>
-                <p className="text-gray-400 text-sm leading-relaxed">
-                  {feature.description}
-                </p>
+                <p className="text-gray-400 text-sm leading-relaxed">{feature.description}</p>
               </div>
             );
           })}

@@ -1,11 +1,14 @@
 import { motion } from 'motion/react';
 import { ArrowRight, PhoneCall } from 'lucide-react';
+import { useTranslation } from '../i18n';
 
 interface CTAProps {
   onContactClick: () => void;
 }
 
 export default function CTA({ onContactClick }: CTAProps) {
+  const { t } = useTranslation();
+
   return (
     <section id="cta" className="relative py-24 md:py-32 overflow-hidden bg-brand-dark">
       <div className="absolute inset-0">
@@ -28,15 +31,13 @@ export default function CTA({ onContactClick }: CTAProps) {
         >
           <div className="max-w-2xl">
             <span className="text-xs md:text-sm font-semibold tracking-[0.25em] text-gold-400 uppercase">
-              SÉCURISEZ VOTRE PATRIMOINE
+              {t('cta', 'kicker')}
             </span>
             <h2 className="font-display font-bold text-4xl sm:text-5xl tracking-tight text-white leading-tight mt-4">
-              Prêt à trouver votre <br />
-              prochain espace premium ?
+              {t('cta', 'title')} <br />
+              {t('cta', 'title2')}
             </h2>
-            <p className="text-gray-300 text-sm md:text-base mt-6 leading-relaxed">
-              Planifiez une visite confidentielle ou un briefing conseil avec nos spécialistes en immobilier d'entreprise à Abidjan.
-            </p>
+            <p className="text-gray-300 text-sm md:text-base mt-6 leading-relaxed">{t('cta', 'body')}</p>
           </div>
 
           <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 shrink-0">
@@ -45,7 +46,7 @@ export default function CTA({ onContactClick }: CTAProps) {
               onClick={() => onContactClick()}
               className="group bg-gold-400 hover:bg-gold-500 text-brand-dark font-bold text-sm px-8 py-4 rounded flex items-center justify-center space-x-2 transition-all duration-300 hover:shadow-lg hover:shadow-gold-400/20 cursor-pointer"
             >
-              <span>Nous contacter</span>
+              <span>{t('cta', 'button')}</span>
               <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
             </button>
 
@@ -54,7 +55,7 @@ export default function CTA({ onContactClick }: CTAProps) {
               className="border border-white/25 hover:border-white/50 text-white font-semibold text-xs uppercase tracking-widest px-8 py-4 rounded text-center flex items-center justify-center space-x-2 transition-colors duration-300"
             >
               <PhoneCall className="w-4 h-4 text-gold-400" />
-              <span>Appeler +225 05 00 18 39 20</span>
+              <span>{t('cta', 'call')}</span>
             </a>
           </div>
         </motion.div>
