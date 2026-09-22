@@ -6,7 +6,7 @@ interface WhatsAppButtonProps {
   compact?: boolean;
 }
 
-const WHATSAPP_NUMBER = '225XXXXXXXX';
+const WHATSAPP_NUMBER = '2250500183920';
 
 export default function WhatsAppButton({ propertyId, propertyTitle, compact = false }: WhatsAppButtonProps) {
   const message = `Bonjour, je suis intéressé(e) par le bien ${propertyTitle} (ID: ${propertyId})`;

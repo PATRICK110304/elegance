@@ -14,11 +14,7 @@ export default function Navbar({ onContactClick }: NavbarProps) {
 
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 20) {
-        setIsScrolled(true);
-      } else {
-        setIsScrolled(false);
-      }
+      setIsScrolled(window.scrollY > 20);
     };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
@@ -45,13 +41,11 @@ export default function Navbar({ onContactClick }: NavbarProps) {
         }`}
       >
         <div className="max-w-7xl mx-auto px-6 md:px-8 flex items-center justify-between">
-          {/* Logo */}
           <a
             href="#"
             className="flex items-end space-x-2 group focus:outline-none"
             aria-label={t('nav', 'home')}
           >
-            {/* Animated Gold Bars */}
             <div className="flex items-end space-x-0.5 h-10 pb-0.5">
               <motion.div
                 className="w-1.5 bg-gold-400 rounded-t-sm"
@@ -75,7 +69,6 @@ export default function Navbar({ onContactClick }: NavbarProps) {
                 transition={{ type: 'spring', stiffness: 300, damping: 15 }}
               />
             </div>
-            {/* Text logo */}
             <div className="flex flex-col">
               <span className="font-display font-bold text-white text-xl tracking-wider leading-none">
                 NORTHLINE
@@ -86,7 +79,6 @@ export default function Navbar({ onContactClick }: NavbarProps) {
             </div>
           </a>
 
-          {/* Centered Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
             {navLinks.map((link) => (
               <a
@@ -100,7 +92,6 @@ export default function Navbar({ onContactClick }: NavbarProps) {
             ))}
           </div>
 
-          {/* Desktop Call to Action */}
           <div className="hidden md:flex items-center space-x-4">
             <div className="flex items-center rounded-md border border-white/10 p-0.5 text-[10px] font-bold tracking-widest" aria-label="Language selector">
               {(['fr', 'en'] as Locale[]).map((option) => (
@@ -116,7 +107,6 @@ export default function Navbar({ onContactClick }: NavbarProps) {
             </button>
           </div>
 
-          {/* Mobile Hamburger menu */}
           <div className="md:hidden flex items-center">
             <button
               id="mobile-menu-btn"
@@ -129,7 +119,6 @@ export default function Navbar({ onContactClick }: NavbarProps) {
           </div>
         </div>
 
-        {/* Mobile Dropdown Panel */}
         <AnimatePresence>
           {isOpen && (
             <motion.div
@@ -157,7 +146,7 @@ export default function Navbar({ onContactClick }: NavbarProps) {
                   </div>
                   <div className="flex items-center space-x-2 text-xs text-gray-400">
                     <Phone className="w-4 h-4 text-gold-400" />
-                    <span>+1 (800) 555-0199</span>
+                    <a href="tel:+2250500183920" className="hover:text-gold-400">+225 05 00 18 39 20</a>
                   </div>
                   <button
                     id="mobile-contact-btn"
