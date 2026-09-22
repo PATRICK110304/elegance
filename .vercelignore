@@ -1,0 +1,4 @@
+rbbit.typescript-hero-3.0.0.vsix
+*.vsix
+node_modules
+.git
