@@ -1,16 +1,28 @@
-import type { VercelRequest, VercelResponse } from '@vercel/node';
+/** Contact form endpoint using Resend. */
 
-/** Simple in-memory rate limit (per serverless instance). */
+type Req = {
+  method?: string;
+  body?: Record<string, unknown>;
+  headers?: Record<string, string | string[] | undefined>;
+  socket?: { remoteAddress?: string };
+};
+
+type Res = {
+  status: (code: number) => Res;
+  json: (body: unknown) => void;
+  setHeader: (k: string, v: string) => void;
+};
+
 const hits = new Map<string, { count: number; resetAt: number }>();
 const RATE_LIMIT = 5;
 const WINDOW_MS = 15 * 60 * 1000;
 const MAX_MESSAGE = 2000;
 const MAX_FIELD = 200;
 
-function clientIp(req: VercelRequest): string {
-  const xf = req.headers['x-forwarded-for'];
+function clientIp(req: Req): string {
+  const xf = req.headers?.['x-forwarded-for'];
   if (typeof xf === 'string') return xf.split(',')[0].trim();
-  if (Array.isArray(xf) && xf[0]) return xf[0].split(',')[0].trim();
+  if (Array.isArray(xf) && xf[0]) return String(xf[0]).split(',')[0].trim();
   return req.socket?.remoteAddress || 'unknown';
 }
 
@@ -41,8 +53,7 @@ function truncate(str: unknown, max: number): string {
   return String(str ?? '').slice(0, max);
 }
 
-export default async function handler(req: VercelRequest, res: VercelResponse) {
-  // No useful CORS for browsers from other origins on this form
+export default async function handler(req: Req, res: Res) {
   res.setHeader('X-Content-Type-Options', 'nosniff');
 
   if (req.method !== 'POST') {
@@ -54,8 +65,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(429).json({ error: 'Too many requests. Try again later.' });
   }
 
-  const body = req.body || {};
-  // Honeypot: bots fill hidden field → silent success, no email
+  const body = (req.body || {}) as Record<string, unknown>;
   if (body.website || body.company_url) {
     return res.status(200).json({ success: true });
   }
@@ -115,7 +125,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     if (!response.ok) {
       const errBody = await response.text();
       console.error('Resend error:', response.status, errBody);
-      // Never leak provider details to the client
       return res.status(502).json({ error: 'Unable to send message' });
     }
 
