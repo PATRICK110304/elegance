@@ -20,7 +20,12 @@ const translations = {
       highlight: 'inspirent le succès',
       body: "Northline Commercial est la principale société de conseil et de courtage spécialisée dans les espaces de travail d'entreprise de classe A, les installations logistiques de pointe et les domaines commerciaux haut de gamme sur mesure en Côte d'Ivoire. Nous faisons le lien entre une architecture d'élite et des opportunités d'affaires inégalées.",
       explore: 'Explorer les biens',
-      video: 'Demander une visite vidéo',
+      video: 'Regarder la visite vidéo',
+    },
+    videoTour: {
+      title: 'Visite vidéo',
+      close: 'Fermer la visite vidéo',
+      unsupported: 'Votre navigateur ne prend pas en charge la lecture vidéo.',
     },
     features: {
       archTitle: 'Architecture Classe A',
@@ -149,7 +154,12 @@ const translations = {
       highlight: 'inspire success',
       body: 'Northline Commercial is a premier advisory and brokerage firm specializing in Class-A corporate workspaces, advanced logistics facilities, and bespoke commercial estates in Côte d\'Ivoire. We connect elite architecture with unmatched business opportunities.',
       explore: 'Explore Properties',
-      video: 'Request a Video Tour',
+      video: 'Watch the video tour',
+    },
+    videoTour: {
+      title: 'Video tour',
+      close: 'Close video tour',
+      unsupported: 'Your browser does not support video playback.',
     },
     features: {
       archTitle: 'Class-A Architecture',

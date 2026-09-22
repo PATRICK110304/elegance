@@ -6,6 +6,7 @@ import { useTranslation } from '../i18n';
 interface HeroProps {
   onExploreClick: () => void;
   onContactClick: () => void;
+  onVideoClick: () => void;
 }
 
 const HERO_POSTER =
@@ -13,7 +14,7 @@ const HERO_POSTER =
 const HERO_VIDEO =
   'https://strvid.nyc3.cdn.digitaloceanspaces.com/motionsite/real_estate_bg_hero_1.mp4';
 
-export default function Hero({ onExploreClick, onContactClick }: HeroProps) {
+export default function Hero({ onExploreClick, onContactClick, onVideoClick }: HeroProps) {
   const { t } = useTranslation();
   const sectionRef = useRef<HTMLElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -127,7 +128,7 @@ export default function Hero({ onExploreClick, onContactClick }: HeroProps) {
 
             <button
               id="hero-video-btn"
-              onClick={onContactClick}
+              onClick={onVideoClick}
               className="group flex items-center justify-center space-x-2 text-white hover:text-gold-400 text-sm font-semibold py-4 px-6 transition-colors duration-300 cursor-pointer"
             >
               <PlayCircle className="w-5 h-5 text-gold-400 transition-transform duration-300 group-hover:scale-110" />
