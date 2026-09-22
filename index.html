@@ -10,17 +10,35 @@
     <meta property="og:type" content="website" />
     <meta name="theme-color" content="#0B0E14" />
 
-    <!-- Performance: preconnect critical third-parties -->
+    <!-- Critical path: preconnect only what blocks first paint -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="preconnect" href="https://images.unsplash.com" />
+    <link rel="preconnect" href="https://images.unsplash.com" crossorigin />
     <link rel="dns-prefetch" href="https://strvid.nyc3.cdn.digitaloceanspaces.com" />
 
-    <!-- Fonts: only needed weights + display=swap -->
+    <!-- Non-blocking fonts -->
     <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap"
+      rel="preload"
+      as="style"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Space+Grotesk:wght@600;700&display=swap"
+      onload="this.onload=null;this.rel='stylesheet'"
     />
+    <noscript>
+      <link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Space+Grotesk:wght@600;700&display=swap"
+      />
+    </noscript>
+
+    <!-- Minimal critical CSS to avoid FOUC on dark theme -->
+    <style>
+      html, body {
+        margin: 0;
+        background: #0B0E14;
+        color: #fff;
+      }
+      #root { min-height: 100vh; }
+    </style>
   </head>
   <body>
     <div id="root"></div>
