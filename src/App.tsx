@@ -1,34 +1,49 @@
-import { useState } from 'react';
+import { lazy, Suspense, useState } from 'react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import FeaturesGrid from './components/FeaturesGrid';
 import TrustedCompanies from './components/TrustedCompanies';
-import About from './components/About';
-import Services from './components/Services';
-import FeaturedProperties from './components/FeaturedProperties';
-import Insights from './components/Insights';
-import CTA from './components/CTA';
-import Footer from './components/Footer';
 import ContactModal from './components/ContactModal';
-import AdminDashboard from './pages/AdminDashboard';
-import LegalPage from './pages/LegalPage';
 import { I18nProvider } from './i18n';
+
+const About = lazy(() => import('./components/About'));
+const Services = lazy(() => import('./components/Services'));
+const FeaturedProperties = lazy(() => import('./components/FeaturedProperties'));
+const Insights = lazy(() => import('./components/Insights'));
+const CTA = lazy(() => import('./components/CTA'));
+const Footer = lazy(() => import('./components/Footer'));
+const AdminDashboard = lazy(() => import('./pages/AdminDashboard'));
+const LegalPage = lazy(() => import('./pages/LegalPage'));
+
+function SectionFallback() {
+  return <div className="min-h-[200px] bg-brand-dark" aria-hidden="true" />;
+}
 
 export default function App() {
   const path = window.location.pathname;
 
-  if (path === '/admin') return <AdminDashboard />;
+  if (path === '/admin') {
+    return (
+      <Suspense fallback={<SectionFallback />}>
+        <AdminDashboard />
+      </Suspense>
+    );
+  }
   if (path === '/privacy') {
     return (
       <I18nProvider>
-        <LegalPage type="privacy" />
+        <Suspense fallback={<SectionFallback />}>
+          <LegalPage type="privacy" />
+        </Suspense>
       </I18nProvider>
     );
   }
   if (path === '/terms') {
     return (
       <I18nProvider>
-        <LegalPage type="terms" />
+        <Suspense fallback={<SectionFallback />}>
+          <LegalPage type="terms" />
+        </Suspense>
       </I18nProvider>
     );
   }
@@ -51,9 +66,7 @@ function SiteContent() {
 
   const handleScrollToProperties = () => {
     const el = document.getElementById('properties');
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth' });
-    }
+    if (el) el.scrollIntoView({ behavior: 'smooth' });
   };
 
   return (
@@ -67,14 +80,27 @@ function SiteContent() {
         />
         <FeaturesGrid />
         <TrustedCompanies />
-        <About onContactClick={() => handleOpenContact('Corporate Partnership')} />
-        <Services onContactClick={(srv) => handleOpenContact(srv)} />
-        <FeaturedProperties onContactClick={(prop) => handleOpenContact(prop)} />
-        <Insights onContactClick={(insight) => handleOpenContact(insight)} />
-        <CTA onContactClick={() => handleOpenContact('Direct Callback')} />
+
+        <Suspense fallback={<SectionFallback />}>
+          <About onContactClick={() => handleOpenContact('Corporate Partnership')} />
+        </Suspense>
+        <Suspense fallback={<SectionFallback />}>
+          <Services onContactClick={(srv) => handleOpenContact(srv)} />
+        </Suspense>
+        <Suspense fallback={<SectionFallback />}>
+          <FeaturedProperties onContactClick={(prop) => handleOpenContact(prop)} />
+        </Suspense>
+        <Suspense fallback={<SectionFallback />}>
+          <Insights onContactClick={(insight) => handleOpenContact(insight)} />
+        </Suspense>
+        <Suspense fallback={<SectionFallback />}>
+          <CTA onContactClick={() => handleOpenContact('Direct Callback')} />
+        </Suspense>
       </main>
 
-      <Footer onContactClick={(area) => handleOpenContact(area)} />
+      <Suspense fallback={<SectionFallback />}>
+        <Footer onContactClick={(area) => handleOpenContact(area)} />
+      </Suspense>
 
       <ContactModal
         isOpen={isContactOpen}
