@@ -2,8 +2,7 @@ import { useEffect, useRef } from 'react';
 import { X } from 'lucide-react';
 import { useTranslation } from '../i18n';
 
-const VIDEO_TOUR_URL =
-  'https://strvid.nyc3.cdn.digitaloceanspaces.com/motionsite/real_estate_bg_hero_1.mp4';
+const VIDEO_TOUR_URL = '/videos/Video-Project.mp4';
 
 interface VideoTourModalProps {
   isOpen: boolean;
@@ -68,4 +67,3 @@ export default function VideoTourModal({ isOpen, onClose }: VideoTourModalProps)
 }
 
 export { VIDEO_TOUR_URL };
-
