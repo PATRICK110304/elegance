@@ -1,4 +1,5 @@
 import { lazy, Suspense, useState } from 'react';
+import { Analytics } from '@vercel/analytics/react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import FeaturesGrid from './components/FeaturesGrid';
@@ -25,9 +26,12 @@ export default function App() {
 
   if (path === '/admin') {
     return (
-      <Suspense fallback={<SectionFallback />}>
-        <AdminDashboard />
-      </Suspense>
+      <>
+        <Suspense fallback={<SectionFallback />}>
+          <AdminDashboard />
+        </Suspense>
+        <Analytics />
+      </>
     );
   }
   if (path === '/privacy') {
@@ -36,6 +40,7 @@ export default function App() {
         <Suspense fallback={<SectionFallback />}>
           <LegalPage type="privacy" />
         </Suspense>
+        <Analytics />
       </I18nProvider>
     );
   }
@@ -45,6 +50,7 @@ export default function App() {
         <Suspense fallback={<SectionFallback />}>
           <LegalPage type="terms" />
         </Suspense>
+        <Analytics />
       </I18nProvider>
     );
   }
@@ -52,6 +58,7 @@ export default function App() {
   return (
     <I18nProvider>
       <SiteContent />
+      <Analytics />
     </I18nProvider>
   );
 }
